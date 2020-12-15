@@ -16,7 +16,7 @@ app.use(express.json());
 
 // 1 - GET Main Route
 app.get("/planes", (req, res) => {
-  connection.query("SELECT * from movies", (err, results) => {
+  connection.query("SELECT * from planes", (err, results) => {
     if (err) {
       res.status(500).send("Error retrieving data");
     } else {
@@ -26,8 +26,67 @@ app.get("/planes", (req, res) => {
 });
 
 // 2 - GET Plane id
+app.get("/planes/:id", (req, res) => {
+  connection.query(
+    "SELECT * from planes WHERE id=?",
+    [req.params.id],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error retrieving data");
+      } else {
+        res.status(200).json(results);
+      }
+    }
+  );
+});
 
-// 3 - GET planes filtered x3
+// 3 - GET planes filtered
+// 3.1 - Contain
+app.get("/search", (req, res) => {
+  const { include } = req.query;
+  connection.query(
+    `SELECT * FROM planes WHERE plane LIKE '%${include}%'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error retrieving data");
+      } else {
+        res.status(200).json(results);
+      }
+    }
+  );
+});
+
+app.get("/starts", (req, res) => {
+  const { starts } = req.query;
+  connection.query(
+    `SELECT * FROM planes WHERE plane LIKE '${starts}%'`,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error retrieving data");
+      } else {
+        res.status(200).json(results);
+      }
+    }
+  );
+});
+
+app.get("/greater", (req, res) => {
+  connection.query(
+    `SELECT * FROM planes WHERE introduction >= ?`,
+    [req.query.date],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error retrieving data");
+      } else {
+        res.status(200).json(results);
+      }
+    }
+  );
+});
 
 // 4 - GET ordered ASC DESC
 

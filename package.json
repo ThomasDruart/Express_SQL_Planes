@@ -1,0 +1,25 @@
+{
+  "name": "Express_SQL_Planes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasDruart/Express_SQL_Planes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasDruart/Express_SQL_Planes/issues"
+  },
+  "homepage": "https://github.com/ThomasDruart/Express_SQL_Planes#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  }
+}
