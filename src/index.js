@@ -89,8 +89,41 @@ app.get("/greater", (req, res) => {
 });
 
 // 4 - GET ordered ASC DESC
+app.get("/planes/order/:ordered", (req, res) => {
+  const { ordered } = req.params;
+  let sql = () => {
+    if (ordered === "asc") {
+      return "SELECT * FROM planes ORDER BY nb_built ASC";
+    } else if (ordered === "desc") {
+      return "SELECT * FROM planes ORDER BY nb_built DESC";
+    }
+  };
+  connection.query(sql(), (err, results) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Error retrieving data");
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
 
 // 5 - POST plane
+app.post("/planes", (req, res) => {
+  const { id, plane, introduction, fighter, nb_built } = req.body;
+  connection.query(
+    "INSERT INTO planes(id, plane, introduction, fighter, nb_built) VALUES(?, ?, ?, ?, ?)",
+    [id, plane, introduction, fighter, nb_built],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error saving a movie");
+      } else {
+        res.status(200).send("Successfully saved");
+      }
+    }
+  );
+});
 
 // 6 - PUT plane
 
