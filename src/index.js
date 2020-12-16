@@ -117,7 +117,7 @@ app.post("/planes", (req, res) => {
     (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send("Error saving a movie");
+        res.status(500).send("Error saving a plane");
       } else {
         res.status(200).send("Successfully saved");
       }
@@ -126,12 +126,55 @@ app.post("/planes", (req, res) => {
 });
 
 // 6 - PUT plane
+app.put("/planes/:id", (req, res) => {
+  const idPlanes = req.params.id;
+  const newPlane = req.body;
+
+  connection.query(
+    "UPDATE planes SET ? WHERE id = ?",
+    [newPlane, idPlanes],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("Error updating a plane");
+      } else {
+        res.status(200).send("plane updated successfully 🎉");
+      }
+    }
+  );
+});
 
 // 7 - PUT on boolean value
 
 // 8 - DELETE plane
+app.delete("/planes/:id", (req, res) => {
+  const idPlane = req.params.id;
+
+  connection.query(
+    "DELETE FROM planes WHERE id = ?",
+    [idPlane],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("😱 Error deleting a plane");
+      } else {
+        res.status(200).send("🎉 plane deleted!");
+      }
+    }
+  );
+});
 
 // 9 - DELETE all non fighters
+app.delete("/planes/fighters", (req, res) => {
+  connection.query("DELETE FROM planes WHERE fighters = 0", (err, results) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("😱 Error deleting a plane");
+    } else {
+      res.status(200).send("🎉 plane deleted!");
+    }
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server is runing on 3000`);
