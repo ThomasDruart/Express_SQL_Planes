@@ -144,7 +144,21 @@ app.put("/planes/:id", (req, res) => {
   );
 });
 
-// 7 - PUT on boolean value
+// 7 - PUT on boolean value (fighter plane)
+app.put("Planes/fighter/:id", (req, res) => {
+  connection.query(
+    "UPDATE plane SET fighter = !fighter WHERE id = ?",
+    [req.params.id],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send("😱 Error uptadating a plane");
+      } else {
+        res.status(200).send("🎉 plane uppdated!");
+      }
+    }
+  );
+});
 
 // 8 - DELETE plane
 app.delete("/planes/:id", (req, res) => {
